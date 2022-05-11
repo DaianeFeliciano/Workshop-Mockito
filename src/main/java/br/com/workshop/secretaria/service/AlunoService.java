@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class AlunoService {
@@ -17,16 +18,22 @@ public class AlunoService {
     AlunoRepository alunoRepository;
 
     public Aluno createAluno(Aluno aluno){
-        Aluno createdAluno = alunoRepository.save(aluno);
-        return createdAluno;
+        return alunoRepository.save(aluno);
     }
 
     public List<Aluno> findByName(String nome) {
        return alunoRepository.findAllByNomeContainingIgnoreCase(nome);
     }
 
-
     public List<Aluno> getAll() {
         return alunoRepository.findAll();
+    }
+
+    public void deleteAluno(Long matricula){
+        alunoRepository.deleteById(matricula);
+    }
+
+    public void updateAluno(Aluno aluno){
+        createAluno(aluno);
     }
 }

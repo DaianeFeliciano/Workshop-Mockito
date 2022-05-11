@@ -20,7 +20,7 @@ public class Aluno {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false, name = "Matricula", unique = true)
-    private UUID matricula;
+    private Long matricula;
 
     @Column(nullable = false, name = "Escola")
     private String escola;

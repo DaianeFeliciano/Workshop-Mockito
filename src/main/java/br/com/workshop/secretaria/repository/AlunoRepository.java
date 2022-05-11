@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface AlunoRepository extends JpaRepository<Aluno, UUID> {
+public interface AlunoRepository extends JpaRepository<Aluno, Long> {
 
     public List<Aluno> findAllByNomeContainingIgnoreCase(@Param("")String nome);
 

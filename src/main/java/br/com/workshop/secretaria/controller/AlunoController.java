@@ -30,27 +30,22 @@ public class AlunoController {
     @GetMapping("/nome/{nome}")
     public ResponseEntity<List<Aluno>> findByNome(@PathVariable String nome){
         return ResponseEntity.ok(alunoService.findByName(nome));
-        //chamada da service vai aqui
     }
 
     @GetMapping
     public ResponseEntity<List<Aluno>> listAlunos(){
         return ResponseEntity.ok(alunoService.getAll());
-        //chamada da service vai aqui
     }
 
     @DeleteMapping("/{matricula}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteById(@PathVariable UUID matricula){
-        //chamada da service vai aqui
+    public void deleteById(@PathVariable Long matricula){
+        alunoService.deleteAluno(matricula);
     }
 
-    @PutMapping("/{matricula}")
-    public Aluno updateById(@PathVariable UUID matricula, @RequestBody @Valid Aluno aluno){
-        return aluno;
-        //chamada da service aqui
+    @PutMapping
+    public ResponseEntity<Aluno> updateById(@RequestBody @Valid Aluno aluno){
+        alunoService.updateAluno(aluno);
+        return ResponseEntity.ok(aluno);
     }
-
-
-
 }
