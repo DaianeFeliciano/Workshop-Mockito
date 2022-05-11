@@ -29,6 +29,11 @@ public class AlunoService {
         return alunoRepository.findAll();
     }
 
+    public Aluno findById(Long matricula) {
+        Optional<Aluno> alunoId = alunoRepository.findById(matricula);
+        return alunoId.get();
+    }
+
     public void deleteAluno(Long matricula){
         alunoRepository.deleteById(matricula);
     }

@@ -37,6 +37,11 @@ public class AlunoController {
         return ResponseEntity.ok(alunoService.getAll());
     }
 
+    @GetMapping("/{matricula}")
+    public ResponseEntity<Aluno> findById(@PathVariable Long matricula){
+        return ResponseEntity.ok(alunoService.findById(matricula));
+    }
+
     @DeleteMapping("/{matricula}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(@PathVariable Long matricula){
