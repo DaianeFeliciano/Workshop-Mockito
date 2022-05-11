@@ -5,6 +5,8 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
+import br.com.workshop.secretaria.domain.Aluno;
+import br.com.workshop.secretaria.dto.AlunoDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.workshop.secretaria.dto.AlunoDto;
 import br.com.workshop.secretaria.service.AlunoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,19 +31,18 @@ public class AlunoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public AlunoDto createAluno(@RequestBody @Valid AlunoDto alunoDto){
-        System.out.println(alunoDto);
-        return alunoDto;
+    public Aluno createAluno(@RequestBody @Valid Aluno aluno){
+        return alunoService.createAluno(aluno);
     }
 
-    @GetMapping("/nome")
-    public AlunoDto findByNome(@PathVariable String nome){
-        return null;
+    @GetMapping("/api/alunos/{nome}")
+    public Aluno findByNome(@PathVariable String nome){
+        return alunoService.findByName(nome);
         //chamada da service vai aqui
     }
 
     @GetMapping
-    public ResponseEntity<List<AlunoDto>> listAlunos(){
+    public ResponseEntity<List<Aluno>> listAlunos(){
         return null;
         //chamada da service vai aqui
     }
@@ -54,8 +54,8 @@ public class AlunoController {
     }
 
     @PutMapping("/{matricula}")
-    public AlunoDto updateById(@PathVariable UUID matricula, @RequestBody @Valid AlunoDto alunoDto){
-        return alunoDto;
+    public Aluno updateById(@PathVariable UUID matricula, @RequestBody @Valid Aluno aluno){
+        return aluno;
         //chamada da service aqui
     }
 
