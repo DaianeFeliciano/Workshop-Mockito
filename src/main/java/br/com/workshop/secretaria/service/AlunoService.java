@@ -5,7 +5,9 @@ import br.com.workshop.secretaria.dto.AlunoDto;
 import br.com.workshop.secretaria.repository.AlunoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,9 +21,8 @@ public class AlunoService {
         return createdAluno;
     }
 
-    public Aluno findByName(String nome) {
-        Aluno aluno = alunoRepository.findAllByNomeContainingIgnoreCase(nome);
-        return aluno;
+    public List<Aluno> findByName(String nome) {
+       return alunoRepository.findAllByNomeContainingIgnoreCase(nome);
     }
 
     
