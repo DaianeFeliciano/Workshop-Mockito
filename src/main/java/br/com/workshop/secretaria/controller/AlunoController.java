@@ -35,7 +35,7 @@ public class AlunoController {
 
     @GetMapping
     public ResponseEntity<List<Aluno>> listAlunos(){
-        return null;
+        return ResponseEntity.ok(alunoService.getAll());
         //chamada da service vai aqui
     }
 

@@ -25,5 +25,8 @@ public class AlunoService {
        return alunoRepository.findAllByNomeContainingIgnoreCase(nome);
     }
 
-    
+
+    public List<Aluno> getAll() {
+        return alunoRepository.findAll();
+    }
 }
