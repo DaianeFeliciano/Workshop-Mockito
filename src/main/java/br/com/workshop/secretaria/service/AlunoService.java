@@ -33,7 +33,10 @@ public class AlunoService {
         alunoRepository.deleteById(matricula);
     }
 
-    public void updateAluno(Aluno aluno){
-        createAluno(aluno);
+    public void updateAluno(Long matricula, Aluno aluno){
+        Optional<Aluno> alunoExists = alunoRepository.findById(matricula);
+        if (alunoExists.isPresent()) {
+            createAluno(aluno);
+        }
     }
 }

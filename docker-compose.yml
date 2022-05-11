@@ -1,0 +1,11 @@
+version: "3"
+services:
+  postgres:
+    image: postgres:12.7
+    restart: always
+    environment:
+      - POSTGRES_USER=secretaria
+      - POSTGRES_PASSWORD=1234
+      - POSTGRES_DB=Secretaria
+    ports:
+      - "5432:5432"

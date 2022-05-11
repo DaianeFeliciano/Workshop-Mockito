@@ -43,9 +43,9 @@ public class AlunoController {
         alunoService.deleteAluno(matricula);
     }
 
-    @PutMapping
-    public ResponseEntity<Aluno> updateById(@RequestBody @Valid Aluno aluno){
-        alunoService.updateAluno(aluno);
+    @PutMapping("/{matricula}")
+    public ResponseEntity<Aluno> updateById(@PathVariable Long matricula, @RequestBody @Valid Aluno aluno){
+        alunoService.updateAluno(matricula,aluno);
         return ResponseEntity.ok(aluno);
     }
 }
