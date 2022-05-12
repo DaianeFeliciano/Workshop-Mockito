@@ -1,14 +1,16 @@
 package br.com.workshop.secretaria;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SecretariaApplicationTests {
+public class SpringMockitoApplicationTests {
 
-	@Test
-	void contextLoads() {
-		SecretariaApplication.main(new String[]{});
-	}
+    @Test
+    public void createAlunoTest() throws Exception {
+
+
+    }
+
+
 
 }

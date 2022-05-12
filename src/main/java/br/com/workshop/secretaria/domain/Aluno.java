@@ -32,4 +32,6 @@ public class Aluno {
 
     @Column(nullable = false, name = "Serie")
     private String serie;
+
+
 }
