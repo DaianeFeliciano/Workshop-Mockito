@@ -72,6 +72,18 @@ public class AlunoControllerTest {
                 .andExpect(jsonPath("$[0].matricula").value(MATRICULA));
     }
 
+    @Test
+    void whenFindByNameThenReturnAnAlunoListByName() throws Exception {
+        when(service.findByName(NOME))
+                .thenReturn(listAluno);
+
+        this.mockMvc.perform(get("/api/alunos/nome/Daiane")).andExpect(status().isOk())
+                .andExpect(jsonPath("$.size()", Matchers.is(2)))
+                .andExpect(jsonPath("$[0].nome").value(NOME))
+                .andExpect(jsonPath("$[0].escola").value(ESCOLA))
+                .andExpect(jsonPath("$[0].serie").value(SERIE));
+    }
+
     private void startAluno() {
         aluno = new Aluno(MATRICULA, ESCOLA,
                 NOME, DATA_NASCIMENTO, SERIE);
