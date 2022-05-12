@@ -56,7 +56,7 @@ class AlunoControllerTests {
     void whenFindByNameThenReturnAnAlunoListByName() {
         when(alunoService.findByName(anyString())).thenReturn(listAluno);
 
-        ResponseEntity<List<Aluno>> response = alunoController.findByNome(anyString());
+        ResponseEntity<List<Aluno>> response = alunoController.findByNome(NOME);
 
         assertNotNull(response);
         assertNotNull(response.getBody());
