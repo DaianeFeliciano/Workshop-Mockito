@@ -81,7 +81,8 @@ public class AlunoControllerTest {
                 .andExpect(jsonPath("$.size()", Matchers.is(2)))
                 .andExpect(jsonPath("$[0].nome").value(NOME))
                 .andExpect(jsonPath("$[0].escola").value(ESCOLA))
-                .andExpect(jsonPath("$[0].serie").value(SERIE));
+                .andExpect(jsonPath("$[0].serie").value(SERIE))
+                .andExpect(jsonPath("$[0].dataNascimento").value(DATA_NASCIMENTO.toString()));
     }
 
     private void startAluno() {
