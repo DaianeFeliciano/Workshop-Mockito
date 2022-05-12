@@ -1,15 +1,12 @@
 package br.com.workshop.secretaria.service;
 
 import br.com.workshop.secretaria.domain.Aluno;
-import br.com.workshop.secretaria.dto.AlunoDto;
 import br.com.workshop.secretaria.repository.AlunoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class AlunoService {

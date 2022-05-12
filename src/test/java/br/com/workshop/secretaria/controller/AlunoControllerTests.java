@@ -1,25 +1,26 @@
-package br.com.workshop.secretaria.service;
+package br.com.workshop.secretaria.controller;
 
 import br.com.workshop.secretaria.domain.Aluno;
-import br.com.workshop.secretaria.repository.AlunoRepository;
+import br.com.workshop.secretaria.service.AlunoService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-class AlunoServiceTests {
+class AlunoControllerTests {
 
     public static final Long MATRICULA   = 1L;
     public static final String ESCOLA    = "Objetivo";
@@ -29,20 +30,19 @@ class AlunoServiceTests {
     public static final String SERIE     = "3A-EM";
     public static final int INDEX = 0;
 
-
-    @InjectMocks // gera uma instacia real e os demais Mock, vai mockar mesmo
-    private AlunoService alunoService;
-
-    @Mock
-    private AlunoRepository alunoRepository;
+    @InjectMocks
+    private AlunoController alunoController;
 
     @Mock
     private Aluno aluno;
 
     @Mock
+    private AlunoService alunoService;
+
+    @Mock
     private List<Aluno> listAluno;
 
-    @BeforeEach // antes realiza um trecho de código
+    @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
         startAluno();
@@ -54,26 +54,25 @@ class AlunoServiceTests {
 
     @Test
     void whenFindByNameThenReturnAnAlunoListByName() {
-        when(alunoRepository.findAllByNomeContainingIgnoreCase(anyString()))
-                            .thenReturn(listAluno);
-                            List<Aluno> response = alunoService.findByName(NOME);
+        when(alunoService.findByName(anyString())).thenReturn(listAluno);
+
+        ResponseEntity<List<Aluno>> response = alunoController.findByNome(NOME);
 
         assertNotNull(response);
-        assertEquals(Aluno.class, response.get(INDEX).getClass());
-        assertEquals(1, response.size());
-        assertEquals(NOME, response.get(INDEX).getNome());
-        assertEquals(MATRICULA, response.get(INDEX).getMatricula());
-        assertEquals(ESCOLA, response.get(INDEX).getEscola());
-        assertEquals(DATA_NASCIMENTO, response.get(INDEX).getDataNascimento());
-        assertEquals(SERIE, response.get(INDEX).getSerie());
+        assertNotNull(response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(ResponseEntity.class, response.getClass());
+        assertEquals(Aluno.class, response.getBody().get(INDEX).getClass());
+        assertEquals(NOME, response.getBody().get(INDEX).getNome());
+        assertEquals(MATRICULA, response.getBody().get(INDEX).getMatricula());
+        assertEquals(ESCOLA, response.getBody().get(INDEX).getEscola());
+        assertEquals(DATA_NASCIMENTO, response.getBody().get(INDEX).getDataNascimento());
+        assertEquals(SERIE, response.getBody().get(INDEX).getSerie());
+
     }
 
     @Test
-    void getAll() {
-
-        when(alunoRepository.findAll()).thenReturn(listAluno);
-        List<Aluno> alunoList = alunoService.getAll();
-        assertNotNull(alunoList.get(INDEX));
+    void listAlunos() {
     }
 
     @Test
@@ -81,11 +80,11 @@ class AlunoServiceTests {
     }
 
     @Test
-    void deleteAluno() {
+    void deleteById() {
     }
 
     @Test
-    void updateAluno() {
+    void updateById() {
     }
 
     private void startAluno() {
