@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,18 +22,12 @@ class AlunoServiceTest {
     public static final Long MATRICULA   = 1L;
     public static final String ESCOLA    = "Objetivo";
     public static final String NOME      = "Daiane";
-    public static final LocalDate DATA_NASCIMENTO = LocalDate.of(2002, 2, 20);
     public static final String SERIE     = "3A-EM";
     public static final int INDEX = 0;
 
-    @Mock
     private List<Aluno> listAluno;
 
-    @Mock
     private Aluno aluno;
-
-    @Mock
-    private Aluno aluno2;
 
     @Mock
     private AlunoRepository repository;
@@ -67,7 +60,6 @@ class AlunoServiceTest {
         assertEquals(NOME, alunoCreated.getNome());
         assertEquals(ESCOLA, alunoCreated.getEscola());
         assertEquals(SERIE, alunoCreated.getSerie());
-        assertEquals(DATA_NASCIMENTO, alunoCreated.getDataNascimento());
     }
 
     @Test
@@ -81,9 +73,7 @@ class AlunoServiceTest {
         assertEquals(MATRICULA, response.getMatricula());
         assertEquals(ESCOLA, response.getEscola());
         assertEquals(NOME, response.getNome());
-        assertEquals(DATA_NASCIMENTO, response.getDataNascimento());
         assertEquals(SERIE, response.getSerie());
-
     }
 
     @Test
@@ -125,19 +115,16 @@ class AlunoServiceTest {
 
         assertNotNull(response);
         assertEquals(Aluno.class, response.get(INDEX).getClass());
-        assertEquals(2, response.size());
+        assertEquals(1, response.size());
         assertEquals(NOME, response.get(INDEX).getNome());
         assertEquals(MATRICULA, response.get(INDEX).getMatricula());
         assertEquals(ESCOLA, response.get(INDEX).getEscola());
-        assertEquals(DATA_NASCIMENTO, response.get(INDEX).getDataNascimento());
         assertEquals(SERIE, response.get(INDEX).getSerie());
     }
 
     private void startAluno() {
         aluno = new Aluno(MATRICULA, ESCOLA,
-                NOME, DATA_NASCIMENTO, SERIE);
-        aluno2 = new Aluno(2L, "Objetivo",
-                "Pedro", LocalDate.of(2000,10,2), "3A - EM");
-        listAluno = List.of(aluno,aluno2);
+                NOME, SERIE);
+        listAluno = List.of(aluno);
     }
 }

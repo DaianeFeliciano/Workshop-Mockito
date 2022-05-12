@@ -2,25 +2,24 @@ package br.com.workshop.secretaria.controller;
 
 import br.com.workshop.secretaria.domain.Aluno;
 import br.com.workshop.secretaria.service.AlunoService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.web.context.WebApplicationContext;
-
-import java.time.LocalDate;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(AlunoController.class)
@@ -29,28 +28,18 @@ public class AlunoControllerTest {
     public static final Long MATRICULA   = 1L;
     public static final String ESCOLA    = "Objetivo";
     public static final String NOME      = "Daiane";
-    public static final LocalDate DATA_NASCIMENTO = LocalDate.of(2002, 2, 20);
     public static final String SERIE     = "3A-EM";
     public static final int INDEX = 0;
-
 
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private WebApplicationContext webApplicationContext;
-
     @MockBean
     private AlunoService service;
 
-    @Mock
     private List<Aluno> listAluno;
 
-    @Mock
     private Aluno aluno;
-
-    @Mock
-    private Aluno aluno2;
 
     @BeforeEach
     void setUp(){
@@ -63,12 +52,22 @@ public class AlunoControllerTest {
     }
 
     @Test
-    void getAllTest() throws Exception {
+    void createAlunoControllerTest() throws Exception{
+        when(service.createAluno(aluno)).thenReturn(aluno);
+        mockMvc.perform(post("/api/alunos")
+                        .contentType(MediaType.APPLICATION_JSON).content(asJsonString(aluno)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.matricula").value(MATRICULA))
+                .andExpect(jsonPath("$.nome").value(NOME));
+    }
+
+    @Test
+    void getAllAlunosControllerTest() throws Exception {
         when(service.getAll())
                 .thenReturn(listAluno);
 
-        this.mockMvc.perform(get("/api/alunos")).andExpect(status().isOk())
-                .andExpect(jsonPath("$.size()", Matchers.is(2)))
+        mockMvc.perform(get("/api/alunos")).andExpect(status().isOk())
+                .andExpect(jsonPath("$.size()", Matchers.is(1)))
                 .andExpect(jsonPath("$[0].nome").value(NOME))
                 .andExpect(jsonPath("$[0].matricula").value(MATRICULA));
     }
@@ -78,27 +77,47 @@ public class AlunoControllerTest {
         when(service.findByName(NOME))
                 .thenReturn(listAluno);
 
-        this.mockMvc.perform(get("/api/alunos/nome/Daiane")).andExpect(status().isOk())
-                .andExpect(jsonPath("$.size()", Matchers.is(2)))
+        mockMvc.perform(get("/api/alunos/nome/Daiane")).andExpect(status().isOk())
+                .andExpect(jsonPath("$.size()", Matchers.is(1)))
                 .andExpect(jsonPath("$[0].nome").value(NOME))
                 .andExpect(jsonPath("$[0].escola").value(ESCOLA))
-                .andExpect(jsonPath("$[0].serie").value(SERIE))
-                .andExpect(jsonPath("$[0].dataNascimento").value(DATA_NASCIMENTO.toString()));
+                .andExpect(jsonPath("$[0].serie").value(SERIE));
     }
 
     @Test
-    void findByIdTest() throws Exception{
+    void findByIdControllerTest() throws Exception{
         when(service.findById(anyLong())).thenReturn(aluno);
-        this.mockMvc.perform(get("/api/alunos/1")).andExpect(status().isOk())
+        mockMvc.perform(get("/api/alunos/1")).andExpect(status().isOk())
                     .andExpect(jsonPath("$.nome").value(NOME))
                     .andExpect(jsonPath("$.serie").value(SERIE));
     }
 
+    @Test
+    void deleteAlunoControllerTest() throws Exception {
+        mockMvc.perform(delete("/api/alunos/1"))
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    void updateByIdTest() throws Exception{
+        mockMvc.perform(put("/api/alunos/{matricula}",MATRICULA)
+                        .contentType(MediaType.APPLICATION_JSON).content(asJsonString(aluno)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.matricula").value(MATRICULA))
+                .andExpect(jsonPath("$.nome").value(NOME));
+    }
+
     private void startAluno() {
         aluno = new Aluno(MATRICULA, ESCOLA,
-                NOME, DATA_NASCIMENTO, SERIE);
-        aluno2 = new Aluno(2L, "Objetivo",
-                "Pedro", LocalDate.of(2000,10,2), "3A - EM");
-        listAluno = List.of(aluno,aluno2);
+                NOME, SERIE);
+        listAluno = List.of(aluno);
+    }
+
+    public static String asJsonString(final Aluno aluno) {
+        try {
+            return new ObjectMapper().writeValueAsString(aluno);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -1,15 +1,10 @@
 package br.com.workshop.secretaria.controller;
 
 import java.util.List;
-import java.util.UUID;
-
 import javax.validation.Valid;
-
 import br.com.workshop.secretaria.domain.Aluno;
-import br.com.workshop.secretaria.dto.AlunoDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import br.com.workshop.secretaria.service.AlunoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

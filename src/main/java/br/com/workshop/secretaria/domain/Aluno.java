@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,11 +28,6 @@ public class Aluno {
     @Column(nullable = false, name = "Nome")
     private String nome;
 
-    @Column(nullable = false, name = "DataDeNascimento")
-    private LocalDate dataNascimento;
-
     @Column(nullable = false, name = "Serie")
     private String serie;
-
-
 }
