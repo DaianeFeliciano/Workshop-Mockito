@@ -17,6 +17,7 @@ import org.springframework.web.context.WebApplicationContext;
 import java.time.LocalDate;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -83,6 +84,14 @@ public class AlunoControllerTest {
                 .andExpect(jsonPath("$[0].escola").value(ESCOLA))
                 .andExpect(jsonPath("$[0].serie").value(SERIE))
                 .andExpect(jsonPath("$[0].dataNascimento").value(DATA_NASCIMENTO.toString()));
+    }
+
+    @Test
+    void findByIdTest() throws Exception{
+        when(service.findById(anyLong())).thenReturn(aluno);
+        this.mockMvc.perform(get("/api/alunos/1")).andExpect(status().isOk())
+                    .andExpect(jsonPath("$.nome").value(NOME))
+                    .andExpect(jsonPath("$.serie").value(SERIE));
     }
 
     private void startAluno() {
