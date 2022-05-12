@@ -36,7 +36,7 @@ class AlunoServiceTest {
     private AlunoService service;
 
     @Captor
-    private ArgumentCaptor<Aluno> captor;
+    private ArgumentCaptor<Aluno> captorAluno;
 
     @Captor
     private ArgumentCaptor<Long> captorMatricula;
@@ -51,11 +51,8 @@ class AlunoServiceTest {
     void testCreateAluno(){
         when(repository.save(any())).thenReturn(aluno);
 
-        service.createAluno(aluno);
+        Aluno alunoCreated = service.createAluno(this.aluno);
 
-        Mockito.verify(repository).save(captor.capture());
-
-        Aluno alunoCreated = captor.getValue();
         assertEquals(MATRICULA, alunoCreated.getMatricula());
         assertEquals(NOME, alunoCreated.getNome());
         assertEquals(ESCOLA, alunoCreated.getEscola());
@@ -99,9 +96,9 @@ class AlunoServiceTest {
 
         service.updateAluno(MATRICULA, aluno);
         Mockito.verify(repository).findById(captorMatricula.capture());
-        Mockito.verify(repository).save(captor.capture());
+        Mockito.verify(repository).save(captorAluno.capture());
 
-        Aluno alunoUpdated = captor.getValue();
+        Aluno alunoUpdated = captorAluno.getValue();
         Long matriculaCaptured = captorMatricula.getValue();
         assertEquals(MATRICULA, matriculaCaptured);
         assertEquals(novaSerie, alunoUpdated.getSerie());

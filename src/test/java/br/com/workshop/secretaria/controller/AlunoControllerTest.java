@@ -58,7 +58,9 @@ public class AlunoControllerTest {
                         .contentType(MediaType.APPLICATION_JSON).content(asJsonString(aluno)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.matricula").value(MATRICULA))
-                .andExpect(jsonPath("$.nome").value(NOME));
+                .andExpect(jsonPath("$.nome").value(NOME))
+                .andExpect(jsonPath("$.escola").value(ESCOLA))
+                .andExpect(jsonPath("$.serie").value(SERIE));
     }
 
     @Test
@@ -68,8 +70,10 @@ public class AlunoControllerTest {
 
         mockMvc.perform(get("/api/alunos")).andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()", Matchers.is(1)))
+                .andExpect(jsonPath("$[0].matricula").value(MATRICULA))
                 .andExpect(jsonPath("$[0].nome").value(NOME))
-                .andExpect(jsonPath("$[0].matricula").value(MATRICULA));
+                .andExpect(jsonPath("$[0].escola").value(ESCOLA))
+                .andExpect(jsonPath("$[0].serie").value(SERIE));
     }
 
     @Test
@@ -77,8 +81,9 @@ public class AlunoControllerTest {
         when(service.findByName(NOME))
                 .thenReturn(listAluno);
 
-        mockMvc.perform(get("/api/alunos/nome/Daiane")).andExpect(status().isOk())
+        mockMvc.perform(get("/api/alunos/nome/{nome}",NOME)).andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()", Matchers.is(1)))
+                .andExpect(jsonPath("$[0].matricula").value(MATRICULA))
                 .andExpect(jsonPath("$[0].nome").value(NOME))
                 .andExpect(jsonPath("$[0].escola").value(ESCOLA))
                 .andExpect(jsonPath("$[0].serie").value(SERIE));
@@ -87,14 +92,16 @@ public class AlunoControllerTest {
     @Test
     void findByIdControllerTest() throws Exception{
         when(service.findById(anyLong())).thenReturn(aluno);
-        mockMvc.perform(get("/api/alunos/1")).andExpect(status().isOk())
-                    .andExpect(jsonPath("$.nome").value(NOME))
-                    .andExpect(jsonPath("$.serie").value(SERIE));
+        mockMvc.perform(get("/api/alunos/{matricula}",MATRICULA)).andExpect(status().isOk())
+                .andExpect(jsonPath("$.matricula").value(MATRICULA))
+                .andExpect(jsonPath("$.nome").value(NOME))
+                .andExpect(jsonPath("$.escola").value(ESCOLA))
+                .andExpect(jsonPath("$.serie").value(SERIE));
     }
 
     @Test
     void deleteAlunoControllerTest() throws Exception {
-        mockMvc.perform(delete("/api/alunos/1"))
+        mockMvc.perform(delete("/api/alunos/{matricula}",MATRICULA))
                 .andExpect(status().isNoContent());
     }
 
@@ -104,7 +111,9 @@ public class AlunoControllerTest {
                         .contentType(MediaType.APPLICATION_JSON).content(asJsonString(aluno)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.matricula").value(MATRICULA))
-                .andExpect(jsonPath("$.nome").value(NOME));
+                .andExpect(jsonPath("$.nome").value(NOME))
+                .andExpect(jsonPath("$.escola").value(ESCOLA))
+                .andExpect(jsonPath("$.serie").value(SERIE));
     }
 
     private void startAluno() {
