@@ -4,6 +4,9 @@ import br.com.workshop.secretaria.AplicationConfigTest;
 import br.com.workshop.secretaria.domain.Aluno;
 import br.com.workshop.secretaria.repository.AlunoRepository;
 import org.junit.jupiter.api.BeforeEach;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
