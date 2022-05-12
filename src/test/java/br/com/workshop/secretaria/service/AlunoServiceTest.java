@@ -75,7 +75,6 @@ class AlunoServiceTest {
 
     @Test
     void testDeleteAluno() {
-        doNothing().when(repository).deleteById(anyLong());
         service.deleteAluno(MATRICULA);
         verify(repository, times(1)).deleteById(anyLong());
     }
