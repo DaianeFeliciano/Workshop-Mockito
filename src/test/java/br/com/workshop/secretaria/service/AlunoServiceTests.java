@@ -25,6 +25,7 @@ class AlunoServiceTests {
     public static final LocalDate DATA_NASCIMENTO = LocalDate.of(2002,
             2, 20);
     public static final String SERIE     = "3A-EM";
+    public static final int INDEX = 0;
 
 
     @InjectMocks // gera uma instacia real e os demais Mock, vai mockar mesmo
@@ -56,12 +57,13 @@ class AlunoServiceTests {
                             List<Aluno> response = alunoService.findByName(NOME);
 
         assertNotNull(response);
-        assertEquals(listAluno, response);
-        assertEquals(NOME, response.get(0).getNome());
-        assertEquals(MATRICULA, response.get(0).getMatricula());
-        assertEquals(ESCOLA, response.get(0).getEscola());
-        assertEquals(DATA_NASCIMENTO, response.get(0).getDataNascimento());
-        assertEquals(SERIE, response.get(0).getSerie());
+        assertEquals(Aluno.class, response.get(INDEX).getClass());
+        assertEquals(1, response.size());
+        assertEquals(NOME, response.get(INDEX).getNome());
+        assertEquals(MATRICULA, response.get(INDEX).getMatricula());
+        assertEquals(ESCOLA, response.get(INDEX).getEscola());
+        assertEquals(DATA_NASCIMENTO, response.get(INDEX).getDataNascimento());
+        assertEquals(SERIE, response.get(INDEX).getSerie());
     }
 
     @Test
