@@ -51,7 +51,7 @@ class AlunoServiceTests {
     }
 
     @Test
-    void whenFindByNameThenReturnAnAlunoInstance() {
+    void whenFindByNameThenReturnAnAlunoListByName() {
         when(alunoRepository.findAllByNomeContainingIgnoreCase(anyString()))
                             .thenReturn(listAluno);
                             List<Aluno> response = alunoService.findByName(NOME);
