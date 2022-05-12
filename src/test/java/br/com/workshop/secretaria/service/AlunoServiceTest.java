@@ -23,8 +23,7 @@ class AlunoServiceTest {
     public static final Long MATRICULA   = 1L;
     public static final String ESCOLA    = "Objetivo";
     public static final String NOME      = "Daiane";
-    public static final LocalDate DATA_NASCIMENTO = LocalDate.of(2002,
-            2, 20);
+    public static final LocalDate DATA_NASCIMENTO = LocalDate.of(2002, 2, 20);
     public static final String SERIE     = "3A-EM";
     public static final int INDEX = 0;
 
